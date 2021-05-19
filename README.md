@@ -13,7 +13,7 @@ npm add encore.hdf5@stable
 ```javascript
 var path = require( 'path' );
 var hdf5 = require( '../..' ).hdf5;
-var Access = require( '../../js/encore/hdf5/globals' ).Access;
+var Access = require( '../..' ).globals.Access;
 
 var file = new hdf5.File( path.join( __dirname, './File.h5' ), Access.ACC_RDONLY );
 var members = file.getMemberNames();
