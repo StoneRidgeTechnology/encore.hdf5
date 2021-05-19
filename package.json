@@ -1,0 +1,34 @@
+{
+  "name" : "encore.hdf5",
+  "version" : "0.3.7",
+  "description" : "HDF5 binding with install",
+  "main" : "./js/encore/hdf5/index.js",
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/Wandalen/encore.hdf5.git"
+  },
+  "engines" : { "node" : ">=10.0.0" },
+  "scripts" :
+  {
+    "install" : "npm explore encore.hdf5.binding -- npm run install",
+    "test" : "npm explore encore.hdf5.binding -- npm run test",
+    "hdf5_where" : "npm explore encore.hdf5.binding -- npm run hdf5_where",
+    "hdf5_diagnostics" : "npm explore encore.hdf5.binding -- npm run hdf5_diagnostics"
+  },
+  "dependencies" :
+  {
+    "encore.hdf5.binding" : ""
+  },
+  "contributors" :
+  [
+    "Kostiantyn Wandalen <wanalen@01.school>",
+    "Volodymyr M. <volodymyr.migdal@gmail.com>"
+  ],
+  "license" : "MIT",
+  "keywords" : [],
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/encore.hdf5/issues"
+  }
+}
