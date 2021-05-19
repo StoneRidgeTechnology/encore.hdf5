@@ -1,0 +1,57 @@
+
+name : publish
+on : [ push ]
+
+jobs :
+
+  Full :
+    env :
+      PRIVATE_WTOOLS_BOT_TOKEN : ${{ secrets.PRIVATE_WTOOLS_BOT_TOKEN }}
+      PRIVATE_WTOOLS_BOT_SSH_KEY : ${{ secrets.PRIVATE_WTOOLS_BOT_SSH_KEY }}
+      PRIVATE_WTOOLS_BOT_NPM_PASS : ${{ secrets.PRIVATE_WTOOLS_BOT_NPM_PASS }}
+      PRIVATE_WTOOLS_BOT_EMAIL : ${{ secrets.PRIVATE_WTOOLS_BOT_EMAIL }}
+      NODE_PRE_GYP_GITHUB_TOKEN : ${{ secrets.NODE_PRE_GYP_GITHUB_TOKEN }}
+      HDF5_HOME_LINUX : /tmp/hdf5/hdf5-1.10.5-linux-centos7-x86_64-shared
+      HDF5_HOME_WIN : C:/Program Files/HDF_Group/HDF5/1.10.5
+      HDF5_HOME_MAC : /tmp/hdf5/hdf5-1.10.7-macOS-10.14-x86_64-clang10.0.1
+    strategy :
+      fail-fast : false
+      matrix :
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
+        node-version : [ 10.x, 12.9.1, 13.x, 14.x, 15.x ]
+    if : "startsWith( github.event.head_commit.message, 'version' ) && startsWith( github.ref, 'refs/tags/v' )"
+    runs-on : ${{ matrix.os }}
+    steps :
+    - name : Setup git
+      run : |
+        git config --global core.autocrlf input
+        git config --global user.email "testing@testing.com"
+        git config --global user.name "Testing"
+    - uses : actions/checkout@v2
+    - name : ${{ matrix.node-version }}
+      uses : actions/setup-node@v1
+      with :
+        node-version : ${{ matrix.node-version }}
+    # - name : Save npm version
+    #   id : getnpmver
+    #   run : |
+    #     echo "::set-output name=npmver::$(npm -v)"
+    # - name : Update npm if current version is 6
+    #   if : "startsWith( steps.getnpmver.outputs.npmver, '6.' )"
+    #   run : npm install -g npm@latest-6
+    # - run : npm -g i willbe@stable
+    # - run: npm run clean
+    # - run : will .npm.install
+    # - run : npm list
+    # - run : npm run node-pre-gyp-build
+    # - run : npm test
+
+    - name : "Linux"
+      if : matrix.os == 'ubuntu-latest'
+      run : |
+        wget -q https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/bin/hdf5-1.10.5-linux-centos7-x86_64-shared.tar.gz -O /tmp/hdf5-1.10.5.tar.gz
+        mkdir -p /tmp/hdf5
+        tar -zxf /tmp/hdf5-1.10.5.tar.gz -C /tmp/hdf5
+        npm install --longlong_type=LONGLONG53BITS --hdf5_home_linux=$HDF5_HOME_LINUX
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HDF5_HOME_LINUX/lib
+        node sample/trivial/Sample.ss
