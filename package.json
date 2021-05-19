@@ -18,7 +18,7 @@
   },
   "dependencies" :
   {
-    "encore.hdf5.binding" : ""
+    "encore.hdf5.binding" : "gamma"
   },
   "contributors" :
   [
