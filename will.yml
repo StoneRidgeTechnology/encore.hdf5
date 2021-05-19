@@ -92,7 +92,7 @@ path :
       raw: compiled
       content: prime
   npm.js.entry:
-    - ./js/encore/hdf5/index.js
+    - ./js/encore/hdf5/entry/Main.s
 
   repository : git+https://github.com/Wandalen/encore.hdf5.git
   origins :
