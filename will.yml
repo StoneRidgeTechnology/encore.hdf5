@@ -19,6 +19,12 @@ about :
     hdf5_diagnostics : npm explore encore.hdf5.binding -- npm run hdf5_diagnostics
 
 submodule:
+
+  wTesting:
+    path: 'npm:///wTesting'
+    enabled: 0
+    criterion:
+      development: 1
   encore.hdf5.binding:
     path: 'npm:///encore.hdf5.binding'
     enabled: 0
