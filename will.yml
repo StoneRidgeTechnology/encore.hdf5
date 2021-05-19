@@ -8,6 +8,7 @@ about :
   - njs >= 10.0.0
   license : MIT
   author: Kostiantyn Wandalen <wanalen@01.school>
+  org : srt
   contributors :
   - 'Kostiantyn Wandalen <wanalen@01.school>'
   - 'Volodymyr M. <volodymyr.migdal@gmail.com>'
