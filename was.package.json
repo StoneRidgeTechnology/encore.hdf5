@@ -2,7 +2,6 @@
   "name" : "encore.hdf5",
   "version" : "0.3.8",
   "description" : "HDF5 binding with install",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "org" : "srt",
   "main" : "./js/encore/hdf5/entry/Main.s",
   "repository" :
