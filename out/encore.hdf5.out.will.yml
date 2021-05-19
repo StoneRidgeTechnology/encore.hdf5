@@ -3,13 +3,13 @@ root:
   - encore.hdf5.out
 consistency:
   ../will.yml: &ref_0
-    hash: 9083e5f7732ed1c6dd69ef812d8b8a05
-    size: 6831
+    hash: e813928a3a09a1c62ebea89752835bc6
+    size: 6843
 module:
   encore.hdf5.out:
     about:
       name: encore.hdf5
-      org: noorg
+      org: srt
       description: HDF5 binding with install
       enabled: 1
       version: 0.4.0
@@ -653,7 +653,7 @@ module:
   ../:
     about:
       name: encore.hdf5
-      org: noorg
+      org: srt
       description: HDF5 binding with install
       enabled: 1
       version: 0.4.0
@@ -1200,5 +1200,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 9083e5f7732ed1c6dd69ef812d8b8a05
-        size: 6831
+        hash: e813928a3a09a1c62ebea89752835bc6
+        size: 6843

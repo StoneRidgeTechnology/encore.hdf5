@@ -1,7 +1,8 @@
 {
   "name" : "encore.hdf5",
-  "version" : "0.3.9",
+  "version" : "0.3.10",
   "description" : "HDF5 binding with install",
+  "org" : "srt",
   "main" : "./js/encore/hdf5/entry/Main.s",
   "repository" :
   {
@@ -16,7 +17,7 @@
     "hdf5_diagnostics" : "npm explore encore.hdf5.binding -- npm run hdf5_diagnostics"
   },
   "devDependencies" : { "wTesting" : "gamma" },
-  "dependencies" : { "encore.hdf5.binding" : "0.3.3" },
+  "dependencies" : { "encore.hdf5.binding" : "gamma" },
   "contributors" :
   [
     "Kostiantyn Wandalen <wanalen@01.school>",
