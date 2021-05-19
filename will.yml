@@ -1,0 +1,331 @@
+about :
+
+  name : 'encore.hdf5'
+  description : 'HDF5 binding with install'
+  version : '0.4.0'
+  enabled : 1
+  interpreters :
+  - njs >= 10.0.0
+  license : MIT
+  contributors :
+  - 'Kostiantyn Wandalen <wanalen@01.school>'
+  - 'Volodymyr M. <volodymyr.migdal@gmail.com>'
+  native : 1
+  npm.name : 'encore.hdf5'
+  npm.scripts :
+    install : npm explore encore.hdf5.binding -- npm run install
+    test : npm explore encore.hdf5.binding -- npm run test
+    hdf5_where : npm explore encore.hdf5.binding -- npm run hdf5_where
+    hdf5_diagnostics : npm explore encore.hdf5.binding -- npm run hdf5_diagnostics
+
+submodule:
+
+  wTesting:
+    path: 'npm:///wTesting'
+    enabled: 0
+    criterion:
+      development: 1
+  encore.hdf5.binding:
+    path: 'npm:///encore.hdf5.binding'
+    enabled: 0
+    criterion:
+      development: 0
+
+path :
+
+  in: .
+  out: out
+  temp:
+    - '{path::out}/cpp'
+    - '{path::build}'
+    - package-lock.json
+    - node_modules
+    - build
+    - binding
+  js: ./js
+  export: '{path::js}/**'
+  doc: ./doc
+  cpp: cpp
+  build: build
+  binding: binding
+  node-pre-gyp: node_modules/@mapbox/node-pre-gyp/bin/node-pre-gyp
+  out.raw.debug:
+    path: '{path::out}/debug'
+    criterion:
+      debug: debug
+      raw: raw
+      content: prime
+  out.compiled.debug:
+    path: '{path::out}/compiled.debug'
+    criterion:
+      debug: debug
+      raw: compiled
+      content: prime
+  out.raw.release:
+    path: '{path::out}/raw.release'
+    criterion:
+      debug: release
+      raw: raw
+      content: prime
+  out.compiled.release:
+    path: '{path::out}/release'
+    criterion:
+      debug: release
+      raw: compiled
+      content: prime
+  entry.js.no.tests:
+    path: js/Main.ss
+    criterion:
+      tests: no.tests
+  entry.js.only.tests:
+    path: js/**/*.test.s
+    criterion:
+      tests: only.tests
+  entry.out.raw.debug:
+    path: '{path::out.*=1}/source/Main.ss'
+    criterion:
+      debug:
+        - debug
+        - release
+      raw: raw
+      content: prime
+  entry.out.compiled.debug:
+    path: '{path::out.*=}/source/Index.s'
+    criterion:
+      debug:
+        - debug
+        - release
+      raw: compiled
+      content: prime
+  npm.js.entry:
+    - ./js/encore/hdf5/entry/Main.s
+
+  repository : git+https://github.com/Wandalen/encore.hdf5.git
+  origins :
+   - git+https://github.com/Wandalen/encore.hdf5.git
+   - npm:///encore.hdf5
+  bugtracker : https:///github.com/Wandalen/encore.hdf5/issues
+
+reflector:
+  reflect.js:
+    inherit: predefined.*
+    criterion:
+      tests: no.tests
+      debug:
+        - debug
+        - release
+      raw:
+        - raw
+        - compiled
+      content: prime
+    filePath:
+      'path::js': '{path::out.*=1}/source'
+  reflect.cpp:
+    inherit: predefined.*
+    filePath:
+      'path::cpp': '{path::out}/cpp'
+  transpile.js.raw:
+    inherit: predefined.*
+    step:
+      inherit: files.transpile
+      entry: 'path::entry.js.no.tests'
+    criterion:
+      raw: raw
+      debug: release
+      content: prime
+    filePath:
+      'path::js': '{path::out.raw.release}'
+  transpile.js.no.tests.compiled:
+    inherit: predefined.*
+    step:
+      inherit: files.transpile
+      entry: 'path::entry.js.*=1'
+    criterion:
+      tests: no.tests
+      raw: compiled
+      debug:
+        - debug
+        - release
+      content: prime
+    filePath:
+      '**.test*': 0
+      '**.test/**': 0
+      'path::js': '{path::out.*=1}/Main.s'
+  transpile.js.only.tests.compiled:
+    inherit: predefined.*
+    step:
+      inherit: files.transpile
+      entry: 'path::entry.js.*=1'
+      external.before: '{path::out.*=1}/Main.s'
+    criterion:
+      tests: only.tests
+      raw: compiled
+      debug:
+        - debug
+        - release
+      content: prime
+    filePath:
+      '**.test*': 1
+      'path::js': '{path::out.*=1}/Tests.test.s'
+
+step :
+
+  js.export :
+    inherit : module.export
+    export : path::export
+    tar : 0
+    criterion :
+      content : 'js'
+
+  doc.export :
+    inherit : module.export
+    export : path::doc
+    tar : 0
+    criterion :
+      content : 'doc'
+
+  npm.export :
+    inherit : module.export
+    export : out.npm
+    tar : 0
+    criterion :
+      content : 'npm'
+
+  npm.publish :
+    shell : npm publish
+
+  npm.generate:
+    inherit: npm.generate
+    entryPath: 'path::entry.out.*=1'
+    packagePath: '{path::out.*=1}/package.json'
+    filesPath: '{path::out.*=1}/source/**'
+    criterion:
+      debug:
+        - debug
+        - release
+      raw:
+        - raw
+        - compiled
+  clean.out.cpp:
+    inherit: files.delete
+    filePath: '{path::out}/cpp'
+  clean.out.npm:
+    inherit: files.delete
+    filePath: 'path::out.*=1'
+    criterion:
+      debug: debug
+      raw: compiled
+      tests: no.tests
+      content: npm
+  clean.build.and.binding:
+    inherit: files.delete
+    filePath:
+      - '{path::build}'
+      - '{path::binding}'
+  tst.js:
+    shell: 'tst {path::js}'
+    criterion:
+      content: js
+  tst.debug:
+    shell: 'tst {path::out.*=1}'
+    criterion:
+      content: prime
+      debug: debug
+  tst.release:
+    shell: 'tst {path::out.*=1}'
+    criterion:
+      content: prime
+      debug: release
+  node-gyp.build:
+    currentPath: 'path::in'
+    shell: 'node {path::node-pre-gyp} configure && node {path::node-pre-gyp} rebuild'
+  node-gyp.install:
+    currentPath: 'path::in'
+    shell: npm run-script node-pre-gyp-install
+
+build :
+
+  js.export :
+    criterion :
+      content : 'js'
+      export : 1
+    steps :
+      # - build::debug.raw
+      - step::js.export
+
+  doc.export :
+    criterion :
+      content : 'doc'
+      export : 1
+    steps :
+      # - build::debug.raw
+      - step::doc.export
+
+  npm.export :
+    criterion :
+      content : 'npm'
+      export : 1
+    steps :
+      # - build::debug.raw
+      # - step::npm.export
+      - step::npm.publish
+
+  export :
+
+    criterion :
+      default : 1
+      export : 1
+    steps :
+      # - build::npm
+      - build::js.export
+      # - build::doc.export
+  debug:
+    criterion:
+      default: 1
+    steps:
+      - clean.build.and.binding
+      - node-gyp.build
+  install:
+    steps:
+      - submodules.update
+      - node-gyp.install
+  compiled.debug:
+    criterion:
+      debug: debug
+      raw: compiled
+      content: prime
+    steps:
+      - 'step::clean.out*=2'
+      - transpile.js.no.tests*=1
+      - transpile.js.only.tests*=1
+  raw.release:
+    criterion:
+      debug: release
+      raw: raw
+      content: prime
+    steps:
+      - 'step::clean.out*=2'
+      - transpile.js.raw
+  release:
+    criterion:
+      debug: release
+      raw: compiled
+      content: prime
+    steps:
+      - 'step::clean.out*=2'
+      - transpile.js.no.tests*=1
+      - transpile.js.only.tests*=1
+  npm:
+    criterion:
+      debug: debug
+      raw: raw
+      content: npm
+    steps:
+      - npm.generate.*=1
+  all:
+    steps:
+      - 'build::debug'
+      - 'build::compiled.debug'
+      - 'build::raw.release'
+      - 'build::release'
+      - 'build::npm'
