@@ -3,8 +3,8 @@ root:
   - encore.hdf5.out
 consistency:
   ../will.yml: &ref_0
-    hash: a4ea6a60109221a13a9bdd50f1068e80
-    size: 6896
+    hash: 9083e5f7732ed1c6dd69ef812d8b8a05
+    size: 6831
 module:
   encore.hdf5.out:
     about:
@@ -22,7 +22,6 @@ module:
       native: 1
       npm.name: encore.hdf5
       npm.scripts: &ref_3
-        install: npm explore encore.hdf5.binding -- npm run install
         test: npm explore encore.hdf5.binding -- npm run test
         hdf5_where: npm explore encore.hdf5.binding -- npm run hdf5_where
         hdf5_diagnostics: npm explore encore.hdf5.binding -- npm run hdf5_diagnostics
@@ -1201,5 +1200,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: a4ea6a60109221a13a9bdd50f1068e80
-        size: 6896
+        hash: 9083e5f7732ed1c6dd69ef812d8b8a05
+        size: 6831
