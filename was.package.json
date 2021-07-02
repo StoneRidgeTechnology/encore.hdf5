@@ -1,32 +1,34 @@
 {
-  "name" : "encore.hdf5",
-  "version" : "0.3.19",
-  "description" : "HDF5 binding with install",
-  "org" : "srt",
-  "main" : "./js/encore/hdf5/entry/Main.s",
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/encore.hdf5.git"
+  "name": "encore.hdf5",
+  "version": "0.3.20",
+  "description": "HDF5 binding with install",
+  "org": "srt",
+  "main": "./js/encore/hdf5/entry/Main.s",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/encore.hdf5.git"
   },
-  "engines" : { "node" : ">=10.0.0" },
-  "scripts" :
-  {
-    "test" : "wtest .run 'js/**' rapidity:-1",
-    "hdf5_where" : "npm explore encore.hdf5.binding -- npm run hdf5_where",
-    "hdf5_diagnostics" : "npm explore encore.hdf5.binding -- npm run hdf5_diagnostics"
+  "engines": {
+    "node": ">=10.0.0"
   },
-  "devDependencies" : { "wTesting" : "" },
-  "dependencies" : { "encore.hdf5.binding" : "" },
-  "contributors" :
-  [
+  "scripts": {
+    "test": "wtest .run 'js/**' rapidity:-1",
+    "hdf5_where": "npm explore encore.hdf5.binding -- npm run hdf5_where",
+    "hdf5_diagnostics": "npm explore encore.hdf5.binding -- npm run hdf5_diagnostics"
+  },
+  "devDependencies": {
+    "wTesting": ""
+  },
+  "dependencies": {
+    "encore.hdf5.binding": ""
+  },
+  "contributors": [
     "Kostiantyn Wandalen <wanalen@01.school>",
     "Volodymyr M. <volodymyr.migdal@gmail.com>"
   ],
-  "license" : "MIT",
-  "keywords" : [],
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/encore.hdf5/issues"
+  "license": "MIT",
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Wandalen/encore.hdf5/issues"
   }
 }
