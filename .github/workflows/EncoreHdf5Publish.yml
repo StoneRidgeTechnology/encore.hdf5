@@ -1,5 +1,5 @@
 
-name : publish
+name : EncoreHdf5Publish
 on : [ push ]
 
 jobs :
