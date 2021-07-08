@@ -37,17 +37,6 @@ jobs :
       if : "startsWith( steps.getnpmver.outputs.npmver, '6.' )"
       run : npm install -g npm@latest-6
     - run : npm -g i willbe@stable
-<<<<<<< HEAD:.github/workflows/StandardPublish.yml
-    - run : will .npm.install
-    - name : Environment
-      run : env
-    - run : npm list
-      continue-on-error : true
-    - if : startsWith( matrix.os, 'ubuntu' )
-      run : xvfb-run --auto-servernum npm test
-    - if : "!startsWith( matrix.os, 'ubuntu' )"
-      run : npm test
-=======
     - run: npm run clean
     # - run : will .npm.install
     # - run : npm list
@@ -85,4 +74,3 @@ jobs :
         will .npm.install
         npm list || true
         npm test
->>>>>>> test:.github/workflows/EncoreHdf5Publish.yml

@@ -38,17 +38,6 @@ jobs :
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm -g i willbe@stable
-<<<<<<< HEAD:.github/workflows/StandardPullRequest.yml
-    - run : will .npm.install
-    - name : Environment
-      run : env
-    - run : npm list
-      continue-on-error : true
-    - if : startsWith( matrix.os, 'ubuntu' )
-      run : xvfb-run --auto-servernum npm test
-    - if : "!startsWith( matrix.os, 'ubuntu' )"
-      run : npm test
-=======
 
     - name : "Linux"
       if : matrix.os == 'ubuntu-latest'
@@ -78,4 +67,3 @@ jobs :
         export DYLD_LIBRARY_PATH=/usr/local/opt/hdf5@1.10/lib:$DYLD_LIBRARY_PATH
         will .npm.install
         npm test
->>>>>>> test:.github/workflows/EncoreHdf5PullRequest.yml
