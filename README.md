@@ -1,4 +1,4 @@
-# module::encore.hdf5  [![status](https://github.com/Wandalen/encore.hdf5/workflows/publish/badge.svg)](https://github.com/Wandalen/encore.hdf5/actions?query=workflow%3Apublish) [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
+# module::encore.hdf5  [![status](https://img.shields.io/github/workflow/status/Wandalen/encore.hdf5/EncoreHdf5Publish?label=publish%3A)](https://github.com/Wandalen/encore.hdf5/actions/workflows/EncoreHdf5Publish.yml) [![stability-experimental](https://img.shields.io/badge/stability-experimental-orange.svg)](https://github.com/emersion/stability-badges#experimental)
 
 HDF5 [binding](https://github.com/Wandalen/encore.hdf5.binding) with install.
 

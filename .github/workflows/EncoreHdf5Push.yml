@@ -1,0 +1,93 @@
+
+name : push
+on : [ push ]
+
+jobs :
+
+  Fast :
+    env :
+      PRIVATE_WTOOLS_BOT_TOKEN : ${{ secrets.PRIVATE_WTOOLS_BOT_TOKEN }}
+      PRIVATE_WTOOLS_BOT_SSH_KEY : ${{ secrets.PRIVATE_WTOOLS_BOT_SSH_KEY }}
+      PRIVATE_WTOOLS_BOT_NPM_PASS : ${{ secrets.PRIVATE_WTOOLS_BOT_NPM_PASS }}
+      PRIVATE_WTOOLS_BOT_EMAIL : ${{ secrets.PRIVATE_WTOOLS_BOT_EMAIL }}
+      NODE_PRE_GYP_GITHUB_TOKEN : ${{ secrets.NODE_PRE_GYP_GITHUB_TOKEN }}
+    strategy :
+      fail-fast : false
+      matrix :
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
+        node-version : [ 14.x ]
+    if : "!startsWith( github.event.head_commit.message, 'version' ) && !startsWith( github.event.head_commit.message, '.' )"
+    runs-on : ${{ matrix.os }}
+    steps :
+    - name : Setup git
+      run : |
+        git config --global core.autocrlf input
+        git config --global user.email "testing@testing.com"
+        git config --global user.name "Testing"
+    - uses : actions/checkout@v2
+    - name : ${{ matrix.node-version }}
+      uses : actions/setup-node@v1
+      with :
+        node-version : ${{ matrix.node-version }}
+    - run : npm -g i willbe@stable
+
+    - name : "Linux"
+      if : matrix.os == 'ubuntu-latest'
+      run : |
+        wget -q https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/bin/hdf5-1.10.5-linux-centos7-x86_64-shared.tar.gz -O /tmp/hdf5-1.10.5.tar.gz
+        mkdir -p /tmp/hdf5
+        tar -zxf /tmp/hdf5-1.10.5.tar.gz -C /tmp/hdf5
+        export PATH=/tmp/hdf5/hdf5-1.10.5-linux-centos7-x86_64-shared/bin:$PATH
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/tmp/hdf5/hdf5-1.10.5-linux-centos7-x86_64-shared/lib
+        will .npm.install
+        npm test
+
+    - name : "Windows"
+      if : matrix.os == 'windows-latest'
+      run : |
+        C:\\Miniconda\\condabin\\conda.bat install -y -c cctbx202105 hdf5
+        $env:Path += ";C:\\Miniconda\\Library\\bin;C:\\Miniconda\\Library\\include;C:\\Miniconda\\Library\\lib;C:\\Miniconda\\Library\\share"
+        will .npm.install
+        npm test
+      shell : powershell
+
+    - name : "Mac"
+      if : matrix.os == 'macos-latest'
+      run : |
+        brew install hdf5@1.10
+        export PATH=/usr/local/opt/hdf5@1.10/bin:$PATH
+        export DYLD_LIBRARY_PATH=/usr/local/opt/hdf5@1.10/lib:$DYLD_LIBRARY_PATH
+        will .npm.install
+        npm test
+
+    # - name : "Windows"
+    #   if : matrix.os == 'windows-latest'
+    #   run : |
+    #     wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/bin/hdf5-1.10.5-Std-win10_64-vs15.zip -OutFile "$env:temp\hdf5-1.10.5.zip"
+    #     Expand-Archive "$env:temp\hdf5-1.10.5.zip" -DestinationPath "$env:temp\hdf5"
+    #     Start-Process msiexec.exe -Wait -ArgumentList '/I C:\\Users\\runneradmin\\AppData\\Local\\Temp\\hdf5\\hdf\\HDF5-1.10.5-win64.msi /quiet'
+    #     npm install --longlong_type=LONGLONG53BITS
+    #   shell : powershell
+    # - name : "Run tests Windows"
+    #   if : matrix.os == 'windows-latest'
+    #   run : |
+    #     eval $(powershell -NonInteractive -Command 'write("export PATH=`"" + ([Environment]::GetEnvironmentVariable("PATH","Machine") + ";" + [Environment]::GetEnvironmentVariable("PATH","User")).replace("\","/").replace("C:","/c").replace(";",":") + ":`$PATH`"")');
+    #     npm test
+    #   shell : bash
+
+
+    # - name : "Mac"
+    #   if : matrix.os == 'macos-latest'
+    #   run : |
+    #     wget -q https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.5/src/hdf5-1.10.5.tar.gz -O /tmp/hdf5-1.10.5.tar.gz
+    #     tar -zxf /tmp/hdf5-1.10.5.tar.gz
+    #     cd `pwd`/hdf5-1.10.5
+    #     ./configure --prefix=`pwd`/dist --enable-shared=yes --enable-static=no --enable-parallel=no --enable-hl --enable-build-mode=production --without-szlib || true
+    #     make -j2 || true
+    #     make install || true
+    #     cd ..
+    #     export HDF5_HOME_MAC=`pwd`/hdf5-1.10.5/dist
+    #     npm install --longlong_type=LONGLONG53BITS --hdf5_home_mac=$HDF5_HOME_MAC
+    #     export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$HDF5_HOME_MAC/lib
+    #     npm test
+    
