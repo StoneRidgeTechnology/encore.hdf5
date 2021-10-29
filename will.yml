@@ -1,25 +1,22 @@
-about :
-
-  name : 'encore.hdf5'
-  description : 'HDF5 binding with install'
-  version : '0.4.0'
-  enabled : 1
-  interpreters :
-  - njs >= 10.0.0
-  license : MIT
-  org : srt
-  contributors :
-  - 'Kostiantyn Wandalen <wanalen@01.school>'
-  - 'Volodymyr M. <volodymyr.migdal@gmail.com>'
-  native : 1
-  npm.name : 'encore.hdf5'
-  npm.scripts :
-    test : npm explore encore.hdf5.binding -- npm run test
-    hdf5_where : npm explore encore.hdf5.binding -- npm run hdf5_where
-    hdf5_diagnostics : npm explore encore.hdf5.binding -- npm run hdf5_diagnostics
-
+about:
+  name: encore.hdf5
+  description: HDF5 binding with install
+  version: 0.4.0
+  enabled: 1
+  interpreters:
+    - njs >= 10.0.0
+  license: MIT
+  org: srt
+  contributors:
+    - Kostiantyn Wandalen <wanalen@01.school>
+    - Volodymyr M. <volodymyr.migdal@gmail.com>
+  native: 1
+  npm.name: encore.hdf5
+  npm.scripts:
+    test: npm explore encore.hdf5.binding -- npm run test
+    hdf5_where: npm explore encore.hdf5.binding -- npm run hdf5_where
+    hdf5_diagnostics: npm explore encore.hdf5.binding -- npm run hdf5_diagnostics
 submodule:
-
   wTesting:
     path: 'npm:///wTesting'
     enabled: 0
@@ -30,9 +27,7 @@ submodule:
     enabled: 0
     criterion:
       development: 0
-
-path :
-
+path:
   in: .
   out: out
   temp:
@@ -99,13 +94,11 @@ path :
       content: prime
   npm.js.entry:
     - ./js/encore/hdf5/entry/Main.s
-
-  repository : git+https://github.com/Wandalen/encore.hdf5.git
-  origins :
-   - git+https://github.com/Wandalen/encore.hdf5.git
-   - npm:///encore.hdf5
-  bugtracker : https:///github.com/Wandalen/encore.hdf5/issues
-
+  repository: 'git+https://github.com/Wandalen/encore.hdf5.git'
+  origins:
+    - 'git+https://github.com/Wandalen/encore.hdf5.git'
+    - 'npm:///encore.hdf5'
+  bugtracker: 'https:///github.com/Wandalen/encore.hdf5/issues'
 reflector:
   reflect.js:
     inherit: predefined.*
@@ -167,33 +160,25 @@ reflector:
     filePath:
       '**.test*': 1
       'path::js': '{path::out.*=1}/Tests.test.s'
-
-step :
-
-  js.export :
-    inherit : module.export
-    export : path::export
-    tar : 0
-    criterion :
-      content : 'js'
-
-  doc.export :
-    inherit : module.export
-    export : path::doc
-    tar : 0
-    criterion :
-      content : 'doc'
-
-  npm.export :
-    inherit : module.export
-    export : out.npm
-    tar : 0
-    criterion :
-      content : 'npm'
-
-  npm.publish :
-    shell : npm publish
-
+step:
+  js.export:
+    inherit: module.export
+    export: 'path::export'
+    tar: 0
+    criterion:
+      content: js
+  doc.export:
+    inherit: module.export
+    export: 'path::doc'
+    tar: 0
+    criterion:
+      content: doc
+  npm.export:
+    inherit: module.export
+    export: out.npm
+    tar: 0
+    criterion:
+      content: npm
   npm.generate:
     inherit: npm.generate
     entryPath: 'path::entry.out.*=1'
@@ -242,43 +227,25 @@ step :
   node-gyp.install:
     currentPath: 'path::in'
     shell: npm run-script node-pre-gyp-install
-
-build :
-
-  js.export :
-    criterion :
-      content : 'js'
-      export : 1
-    steps :
-      # - build::debug.raw
-      - step::js.export
-
-  doc.export :
-    criterion :
-      content : 'doc'
-      export : 1
-    steps :
-      # - build::debug.raw
-      - step::doc.export
-
-  npm.export :
-    criterion :
-      content : 'npm'
-      export : 1
-    steps :
-      # - build::debug.raw
-      # - step::npm.export
-      - step::npm.publish
-
-  export :
-
-    criterion :
-      default : 1
-      export : 1
-    steps :
-      # - build::npm
-      - build::js.export
-      # - build::doc.export
+build:
+  js.export:
+    criterion:
+      content: js
+      export: 1
+    steps:
+      - 'step::js.export'
+  doc.export:
+    criterion:
+      content: doc
+      export: 1
+    steps:
+      - 'step::doc.export'
+  export:
+    criterion:
+      default: 1
+      export: 1
+    steps:
+      - 'build::js.export'
   debug:
     criterion:
       default: 1
