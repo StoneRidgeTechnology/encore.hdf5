@@ -1,6 +1,6 @@
 {
   "name": "encore.hdf5",
-  "version": "0.3.38",
+  "version": "0.3.39",
   "description": "HDF5 binding with install",
   "org": "srt",
   "main": "./js/encore/hdf5/entry/Main.s",
@@ -18,10 +18,10 @@
     "clean": "rm -rf node_modules package-lock.json"
   },
   "devDependencies": {
-    "wTesting": "gamma"
+    "wTesting": "delta"
   },
   "dependencies": {
-    "encore.hdf5.binding": "gamma"
+    "encore.hdf5.binding": "delta"
   },
   "contributors": [
     "Kostiantyn Wandalen <wanalen@01.school>",
