@@ -3,8 +3,8 @@ root:
   - encore.hdf5.out
 consistency:
   ../will.yml: &ref_0
-    hash: de5cdf82d2927b412829a507928f48ba
-    size: 6470
+    hash: dd0e8737be71d0bc3e149d24369ece85
+    size: 6474
 module:
   encore.hdf5.out:
     about:
@@ -1182,5 +1182,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: de5cdf82d2927b412829a507928f48ba
-        size: 6470
+        hash: dd0e8737be71d0bc3e149d24369ece85
+        size: 6474
